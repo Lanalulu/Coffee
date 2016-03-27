@@ -31,6 +31,23 @@ ul {
     color: #000;
 }
 
+#map {
+	position: absolute;
+	display: none;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.navbar-right {
+	display: none;
+}
+
+.fa-close {
+	line-height: inherit;
+}
+
 .vertical-center {
 	display: table-cell;
 	vertical-align: middle;
@@ -82,6 +99,7 @@ ul {
 #funFacts {
 	padding: 40px 0 55px 0;
 	background-color: #d9d9d9;
+	height: 110%;
 }
 
 #funFacts .row {
