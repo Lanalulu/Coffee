@@ -35,12 +35,16 @@
 			<li><a href="#funFacts">Fun Facts</a></li>
 			<li><a href="#about">About</a></li>
 		</ul>
+		<ul class="nav navbar-nav navbar-right">
+			<li><a href="#closeMap">Close Map<i class="fa fa-close fa-inverse fa-3x pull-right"></i></a></li>
+		</ul>
 	</div>
   </div>
 </nav>
 
 <!-- Header -->
 <header id="home" class="header text-center">
+	<div id="map"></div>
 	<div class="vertical-center">
 		<h1>Need a Cup of Joe?</h1>
 		<h3>Locate Nearby Cafes</h3>
@@ -112,7 +116,7 @@
 				<div class="text-center col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12">
 					<h1>Creator of Coffee Landing</h1>
 					<hr width="200">
-	                <h3 class="lead">Aspiring Web Developer - Flautist - UX Enthusiast</h3>
+	                <h3 class="lead">Web & Email Developer - Flautist - UX Enthusiast</h3>
 	                <p class="description">The mastermind behind this jaw-dropping website is a young woman who recently obtained her Master of Science in Applied Psychology. Soon after graduation, she became curious about the field of user experience and decided to venture out on a self-taught journey towards HTML, CSS, JavaScript, jQuery, Bootstrap, and PHP. Now having these languages securely under her belt, she is eager to learn more. In her spare time, she also enjoys playing the flute, singing Japanese songs from the 80's, and coding anything from HTML emails to webpages. Surprisingly enough, she does not like coffee (go figure).</p>
 				</div>
 			</div>
@@ -141,7 +145,7 @@ var markers = [];
 
 function initialize(location) {
 	var center = new google.maps.LatLng(location.coords.latitude, location.coords.longitude);
-	map = new google.maps.Map(document.getElementById('home'), {
+	map = new google.maps.Map(document.getElementById('map'), {
 		center: center,
 		zoom: 14
 	});
@@ -151,6 +155,12 @@ function initialize(location) {
 		radius: 1600,
 		types: ['cafe']
 	};
+
+	google.maps.event.addListener(map, 'tilesloaded', function(evt) {
+		$('.vertical-center').effect( "shake", {times: 50, distance: .7}, 500);
+		    $('#map').show();
+			$('.navbar-right').show();
+	});
 
 	infoWindow = new google.maps.InfoWindow();
 
@@ -164,7 +174,7 @@ function initialize(location) {
 
 		var request = {
 			location: event.latLng,
-			radius: 8047,
+			radius: 1600,
 			types: ['cafe']
 		};
 
@@ -209,14 +219,18 @@ function clearResults(markers) {
 
 $(document).ready(function(){
 
-	$("#brew").click(function(e){
+	$("#brew").one("click", function(e){
 		navigator.geolocation.getCurrentPosition(initialize);
-		$('.vertical-center').effect( "shake", {times: 50, distance: .7}, 500);
 		e.preventDefault();
 	});
 
-	$(".navbar-nav li a").click(function(event) {
+	$(".navbar-nav li a, .navbar-header").click(function(event) {
     	$(".navbar-collapse").collapse('hide');
+	});
+
+	$(".navbar-right").click(function(event){
+		$('#map').hide();
+		$(this).hide();
 	});
 });
 
